@@ -65,8 +65,11 @@ namespace CasaDoCodigo.Models
 
     public class ItemPedido : BaseModel
     {   
+        public int PedidoId { get; set; }
         [Required]
         public Pedido Pedido { get; private set; }
+        
+        public int ProdutoId { get; set; } 
         [Required]
         public Produto Produto { get; private set; }
         [Required]
@@ -101,7 +104,8 @@ namespace CasaDoCodigo.Models
         }
 
         public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
-        [Required]
+        
+        public int CadastroId { get; set; }                     
         public virtual Cadastro Cadastro { get; private set; }
     }
 }
