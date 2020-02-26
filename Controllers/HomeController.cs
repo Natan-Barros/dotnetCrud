@@ -5,11 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using dotnet.Models;
+using dotnetCrud;
 
 namespace dotnet.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IProdutoRepository produtoRepository;
+
+        public HomeController(IProdutoRepository produtoRepository)
+        {
+            this.produtoRepository = produtoRepository;
+        }
+
         public IActionResult Index()
         {
             return View();

@@ -68,3 +68,4 @@ C:\Projetos\dotnetCrud\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.cshtml
 C:\Projetos\dotnetCrud\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Projetos\dotnetCrud\obj\Debug\netcoreapp2.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Projetos\dotnetCrud\obj\Debug\netcoreapp2.1\Razor\Views\_ViewStart.cshtml.g.cs
+c:\Projetos\dotnetCrud\bin\Debug\netcoreapp2.1\livros.json
