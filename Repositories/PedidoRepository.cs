@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using CasaDoCodigo.Models;
+using dotnetCrud.Models;
+using dotnetCrud.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +11,12 @@ namespace dotnetCrud.Repositories
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
         private readonly IHttpContextAccessor contextAccessor;
-        public PedidoRepository(ApplicationContext contexto,  IHttpContextAccessor contextAccessor) : base(contexto)
+        private readonly IItemPedidoRepository itemPedidoRepository;
+        public PedidoRepository(ApplicationContext contexto,  IHttpContextAccessor contextAccessor, 
+        IItemPedidoRepository itemPedidoRepository) : base(contexto)
         {
             this.contextAccessor = contextAccessor;
+            this.itemPedidoRepository = itemPedidoRepository;
         }
 
         public void AddItem(string codigo)
@@ -65,7 +70,26 @@ namespace dotnetCrud.Repositories
         private void SetPedidoId(int pedidoId) {
             contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
         }
+        public UpdateQuantidadeResponse UpdateQuantidade(ItemPedido itemPedido)
+        {
+            var itemPedidoDB = itemPedidoRepository.GetItemPedido(itemPedido.Id);
 
+            if (itemPedidoDB != null)
+            {
+                itemPedidoDB.AtualizaQuantidade(itemPedido.Quantidade);
+                
+                if(itemPedidoDB.Quantidade == 0)
+                {
+                    itemPedidoRepository.RemoveItemPedido(itemPedido.Id);
+                }
+                contexto.SaveChanges();
+
+                CarrinhoViewModel carrinhoViewModel = new CarrinhoViewModel(GetPedido().Itens);
+                return new UpdateQuantidadeResponse(itemPedidoDB, carrinhoViewModel);
+            }
+
+            throw new ArgumentException("Item Pedido não foi encontrado");
+        }
 
     }
 
@@ -73,5 +97,6 @@ namespace dotnetCrud.Repositories
     {
         void AddItem(string codigo);
         Pedido GetPedido();
+        UpdateQuantidadeResponse UpdateQuantidade(ItemPedido itemPedido);
     }
 }

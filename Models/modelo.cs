@@ -63,20 +63,28 @@ namespace CasaDoCodigo.Models
         public string CEP { get; set; } = "";
     }
 
+    [DataContract]
     public class ItemPedido : BaseModel
     {   
+       [DataMember]
         public int PedidoId { get; set; }
         [Required]
+        [DataMember]
         public Pedido Pedido { get; private set; }
-        
+        [DataMember]
+  
         public int ProdutoId { get; set; } 
         [Required]
+        [DataMember]
         public Produto Produto { get; private set; }
         [Required]
+        [DataMember]
         public int Quantidade { get; private set; }
         [Required]
+        [DataMember]
         public decimal PrecoUnitario { get; private set; }
-
+        [DataMember]
+        public decimal Subtotal => Quantidade * PrecoUnitario;
         public ItemPedido()
         {
 
@@ -88,6 +96,11 @@ namespace CasaDoCodigo.Models
             Produto = produto;
             Quantidade = quantidade;
             PrecoUnitario = precoUnitario;
+        }
+
+        internal void AtualizaQuantidade(int quantidade)
+        {
+            this.Quantidade = quantidade;
         }
     }
 
